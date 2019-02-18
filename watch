@@ -1,0 +1,4 @@
+#!/bin/sh
+fswatch -o resume.less | xargs -n1 -I{} lessc resume.less resume.css &
+browser-sync start --server --files "*.css" "*.html" &
+wait
