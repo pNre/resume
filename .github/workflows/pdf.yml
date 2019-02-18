@@ -1,0 +1,39 @@
+name: Generate PDF
+
+on: [push]
+
+jobs:
+  html_to_pdf:
+    name: Generate PDF
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '17'
+
+      - name: Install Less
+        run: npm install less -g
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install fonts
+        run: sudo apt-get update && sudo apt-get -yq install fonts-noto
+
+      - name: Compile CSS
+        run: lessc resume.less resume.css
+
+      - name: HTML to PDF
+        uses: fifsky/html-to-pdf-action@master
+        with:
+          htmlFile: ./index.html
+          outputFile: ./resume.pdf
+          pdfOptions: '{"format": "A4"}'
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Resume (PDF)
+          path: ./resume.pdf

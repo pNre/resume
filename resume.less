@@ -1,0 +1,257 @@
+@mobile: ~"only screen and (max-width: 639px)";
+@default: ~"print, (min-width: 640px)";
+
+@mobile-factor: 0.9;
+
+@background-color-light: #ffffff;
+@foreground-color-light: #2a2a2a;
+@stronger-foreground-color-light: darken(@foreground-color-light, 5%);
+@secondary-foreground-color-light: lighten(@foreground-color-light, 15%);
+@tertiary-foreground-color-light: lighten(@foreground-color-light, 20%);
+@link-color-light: @foreground-color-light;
+@link-hover-color-light: darken(@foreground-color-light, 15%);
+
+@background-color-dark: #1a1a1a;
+@foreground-color-dark: #e9e9e9;
+@stronger-foreground-color-dark: lighten(@foreground-color-dark, 5%);
+@secondary-foreground-color-dark: darken(@foreground-color-dark, 15%);
+@tertiary-foreground-color-dark: darken(@foreground-color-dark, 20%);
+@link-color-dark: @foreground-color-dark;
+@link-hover-color-dark: lighten(@link-color-dark, 15%);
+
+@section-padding: 1rem;
+@section-padding-bottom: 1.5rem;
+
+@body-font-size: 15px;
+@entry-title-font-size: 18px;
+@entry-period-font-size: 14px;
+@subsection-title-font-size: 24px;
+@title-font-size: 28px;
+
+@font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+:root {
+  --background-color: @background-color-light;
+  --foreground-color: @foreground-color-light;
+  --stronger-foreground-color: @stronger-foreground-color-light;
+  --secondary-foreground-color: @secondary-foreground-color-light;
+  --tertiary-foreground-color: @tertiary-foreground-color-light;
+  --link-color: @link-color-light;
+  --link-hover-color: @link-hover-color-light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: @background-color-dark;
+    --foreground-color: @foreground-color-dark;
+    --stronger-foreground-color: @stronger-foreground-color-dark;
+    --secondary-foreground-color: @secondary-foreground-color-dark;
+    --tertiary-foreground-color: @tertiary-foreground-color-dark;
+    --link-color: @link-color-dark;
+    --link-hover-color: @link-hover-color-dark;
+  }
+}
+
+body {
+  margin: 0;
+  .primary;
+  line-height: 1.5;
+  background: var(--background-color, @background-color-light);
+
+  @media @default {
+    font-size: @body-font-size;
+  }
+
+  @media @mobile {
+    font-size: round(@body-font-size * @mobile-factor);
+  }
+
+  font-family: @font-family;
+}
+
+a {
+  color: var(--link-color, @link-color-light);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--link-hover-color, @link-hover-color-light);
+    text-decoration: underline;
+  }
+}
+
+ul.custom {
+  position: relative;
+  list-style: none;
+  margin-left: 0;
+  margin-bottom: 0;
+  padding-left: 1.2em;
+
+  & > li:before {
+    content: "·";
+    position: absolute;
+    left: 0.3em;
+  }
+}
+
+ul.none {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  max-width: 60rem;
+
+  @media screen, print {
+    margin: 0 auto;
+  }
+
+  @media @default {
+    padding: 20px 10px;
+  }
+
+  @media @mobile {
+    padding: 20px;
+  }
+}
+
+.section {
+  @media @default {
+    padding-top: @section-padding;
+    padding-bottom: @section-padding;
+  }
+
+  & > div.title {
+    @media @default {
+      font-size: @title-font-size;
+    }
+
+    @media @mobile {
+      font-size: round(@title-font-size * @mobile-factor);
+    }
+
+    .stronger;
+
+    & > span.smaller {
+      .secondary;
+      .normal;
+
+      @media @default {
+        font-size: @body-font-size;
+      }
+
+      @media @mobile {
+        font-size: round(@body-font-size * @mobile-factor);
+      }
+
+      margin-left: 0.75em;
+      vertical-align: baseline;
+    }
+  }
+
+  & > .intro {
+    padding-top: round((@section-padding / 2));
+  }
+}
+
+.subsection {
+  padding-top: @section-padding;
+  padding-bottom: @section-padding-bottom;
+
+  & > div.title {
+    margin-bottom: -0.6rem;
+    .lighter;
+
+    @media @default {
+      font-size: @subsection-title-font-size;
+    }
+
+    @media @mobile {
+      font-size: round(@subsection-title-font-size * @mobile-factor);
+    }
+  }
+
+  & > div.entry {
+    break-inside: avoid;
+    padding-top: 0.7rem;
+    padding-bottom: 1rem;
+
+    &:first-of-type {
+      padding-top: 0;
+    }
+
+    &:last-of-type {
+      padding-bottom: 0;
+    }
+
+    & > div.title {
+      @media @default {
+        font-size: @entry-title-font-size;
+      }
+
+      @media @mobile {
+        font-size: round(@entry-title-font-size * @mobile-factor);
+      }
+
+      .stronger;
+
+      & > .period {
+        .lighter;
+        .tertiary;
+
+        @media @default {
+          font-size: @entry-period-font-size;
+        }
+
+        @media @mobile {
+          font-size: round(@entry-period-font-size * @mobile-factor);
+        }
+      }
+    }
+  }
+}
+
+.contacts {
+  align-self: stretch;
+  .secondary;
+
+  & > a {
+    .secondary;
+
+    &:hover {
+      .primary;
+    }
+  }
+}
+
+.stronger {
+  font-weight: 600;
+  color: var(--stronger-foreground-color, @stronger-foreground-color-light);
+}
+
+.lighter {
+  font-weight: 300;
+}
+
+.normal {
+  font-weight: normal;
+}
+
+.primary {
+  color: var(--foreground-color, @foreground-color-light);
+}
+
+.secondary {
+  color: var(--secondary-foreground-color, @secondary-foreground-color-light);
+}
+
+.tertiary {
+  color: var(--tertiary-foreground-color, @tertiary-foreground-color-light);
+}
+
+@page {
+  margin: 1.5cm;
+  size: A4;
+}
